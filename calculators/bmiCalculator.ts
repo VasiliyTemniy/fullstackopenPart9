@@ -17,7 +17,18 @@ const parseArgumentsBMI = (args: Array<string>): argsBMI => {
   }
 }
 
-const calculateBmi = ( height: number, mass: number ) : string => {
+export const parseWebArgumentsBMI = ( height: any, weight: any ): argsBMI => {
+    if (!isNaN(Number(height)) && !isNaN(Number(weight))) {
+    return {
+      height: Number(height),
+      mass: Number(weight)
+    }
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+}
+
+export const calculateBmi = ( height: number, mass: number ) : string => {
   const heightMeters = height / 100;
   const result = (mass/heightMeters)/heightMeters;
   if ( result < 16 ) {

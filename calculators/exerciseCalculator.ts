@@ -36,7 +36,7 @@ const parseArgumentsExercise = (args: Array<string>): argsExercise => {
   }
 }
 
-const exerciseCalculator = (dailyHoursArray: number[], targetDaily: number) : Exercises => {
+export const exerciseCalculator = (dailyHoursArray: number[], targetDaily: number) : Exercises => {
   let result = <Exercises>{};
   result.periodLength = dailyHoursArray.length;
   result.trainingDays = dailyHoursArray.filter(hours => hours > 0).length;
