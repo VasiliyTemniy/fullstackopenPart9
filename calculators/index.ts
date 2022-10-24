@@ -1,17 +1,16 @@
 import express from 'express';
 import { calculateBmi, parseWebArgumentsBMI } from './bmiCalculator';
-//import { exerciseCalculator } from './exerciseCalculator';
+import { exerciseCalculator, parseWebArgumentsExercise } from './exerciseCalculator';
 const app = express();
+app.use(express.json());
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
 });
 
 app.get('/bmi', (req, res) => {
-  const queryHeight = req.query.height;
-  const queryWeight = req.query.weight;
   try {
-    const { height, mass } = parseWebArgumentsBMI(queryHeight, queryWeight);
+    const { height, mass } = parseWebArgumentsBMI(req.query.height, req.query.weight);
     const responseObject = {
       weight: mass,
       height: height,
@@ -19,13 +18,28 @@ app.get('/bmi', (req, res) => {
     };
     res.send(JSON.stringify(responseObject));
   } catch (error: unknown) {
-    let errorMessage = 'Something bad happened.'
+    let errorMessage = 'Something bad happened.';
     if (error instanceof Error) {
       errorMessage += ' Error: ' + error.message;
     }
     res.send(JSON.stringify({ error: errorMessage }));
   }
 });
+
+app.post('/exercises', (req, res) => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const { dailyHours, target } = parseWebArgumentsExercise(req.body.daily_exercises, req.body.target);
+    res.send(JSON.stringify(exerciseCalculator(dailyHours, target)));
+  } catch (error: unknown) {
+    let errorMessage = 'Something bad happened.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    res.send(JSON.stringify({ error: errorMessage }));
+  }
+});
+
 
 const PORT = 3003;
 

@@ -11,22 +11,23 @@ const parseArgumentsBMI = (args: Array<string>): argsBMI => {
     return {
       height: Number(args[2]),
       mass: Number(args[3])
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }
-}
+};
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseWebArgumentsBMI = ( height: any, weight: any ): argsBMI => {
     if (!isNaN(Number(height)) && !isNaN(Number(weight))) {
     return {
       height: Number(height),
       mass: Number(weight)
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }
-}
+};
 
 export const calculateBmi = ( height: number, mass: number ) : string => {
   const heightMeters = height / 100;
@@ -50,13 +51,13 @@ export const calculateBmi = ( height: number, mass: number ) : string => {
   } else {
     throw new Error('everything went unepecxted');
   }
-}
+};
 
 try {
   const { height, mass } = parseArgumentsBMI(process.argv);
   console.log(calculateBmi(height, mass));
 } catch (error: unknown) {
-  let errorMessage = 'Something bad happened.'
+  let errorMessage = 'Something bad happened.';
   if (error instanceof Error) {
     errorMessage += ' Error: ' + error.message;
   }
