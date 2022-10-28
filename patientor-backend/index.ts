@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 
 import diagnosesRouter from './routes/diagnoses';
+import patientRouter from './routes/patients';
 
 app.use((_req, _res, next) => {
   next();
@@ -11,7 +12,7 @@ app.use((_req, _res, next) => {
 
 //app.use(express.static('build'));
 
-
+app.use('/api/patients', patientRouter);
 
 app.use('/api/diagnoses', diagnosesRouter);
 
