@@ -12,7 +12,12 @@ const getPatientsNoSSN = () : PatientNoSSN[] => {
 };
 
 const getOnePatient = (id: string) : Patient | undefined => {
-  return patients.find(patient => patient.id === id);
+  const patient = patients.find(patient => patient.id === id);
+  if (patient) {
+    return patient;
+  } else {
+    throw new Error('Did not found patient with this ID');
+  }
 };
 
 const getOnePatientNoSSN = (id: string) : PatientNoSSN | undefined => {
