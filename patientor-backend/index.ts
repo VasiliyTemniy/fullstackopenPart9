@@ -10,8 +10,6 @@ app.use((_req, _res, next) => {
   next();
 }, cors({ maxAge: 84600 }));
 
-//app.use(express.static('build'));
-
 app.use('/api/patients', patientRouter);
 
 app.use('/api/diagnoses', diagnosesRouter);
