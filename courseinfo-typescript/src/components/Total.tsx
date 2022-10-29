@@ -1,6 +1,6 @@
-import { CourseParts } from '../types/CourseParts';
+import { CoursePartsProps } from '../types/CoursePart';
 
-const Total = (props: CourseParts) => {
+const Total = (props: CoursePartsProps) => {
   
   return (
     <p>
