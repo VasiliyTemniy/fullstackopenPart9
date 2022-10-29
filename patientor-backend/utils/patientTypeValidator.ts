@@ -8,7 +8,7 @@ const patientTypeValidator = ({ name, dateOfBirth, ssn, gender, occupation } : F
     dateOfBirth: parseDate(dateOfBirth),
     ssn: parseString(ssn),
     gender: parseGender(gender),
-    occupation: parseString(occupation)
+    occupation: parseString(occupation),
   };
   return patientTV;
 };
@@ -34,6 +34,10 @@ const parseGender = (gender: unknown): Gender => {
   }
   return gender;
 };
+
+//const parseEntries = (entries: unknown[]): Entry => {
+//  if {!entries || }
+//};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isGender = (param: any): param is Gender => {
