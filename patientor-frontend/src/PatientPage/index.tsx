@@ -4,8 +4,7 @@ import axios from "axios";
 //import { Button, Divider, Container } from "@material-ui/core";
 
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
-import { Patient } from "../types";
+import { useStateValue, getPatientDetails } from "../state";
 
 import MaleIco from "../img/male.png";
 import FemaleIco from "../img/female.png";
@@ -19,50 +18,20 @@ const PatientPage = () => {
 
   React.useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
-
-    if (!state.patients[`${id}`].ssn) {
-      if (Object.keys(state.patients).length !== 0) {
-        void fetchPatientDetails();
-      } else {
-        void fetchPatientList();     // this makes shure that if somebody reshreshes the patient page
-        void fetchPatientDetails();  // the app wouldn't crash trying to put info about ssn and entries to an unexisting object
-      }
-    }
+    void getPatientDetails(dispatch, state, id);
   }, [id]);
 
-  const fetchPatientDetails = async () => {
-    try {
-      const { data: patientDetailsFromApi } = await axios.get<Patient>(
-        `${apiBaseUrl}/patients/${id}`
-      );
-      dispatch({ type: "SET_PATIENT_DETAILS", payload: patientDetailsFromApi });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const fetchPatientList = async () => {
-    try {
-      const { data: patientListFromApi } = await axios.get<Patient[]>(
-        `${apiBaseUrl}/patients`
-      );
-      dispatch({ type: "SET_PATIENT_LIST", payload: patientListFromApi });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const patient = state.patients[`${id}`];
+
+  if (!patient) {
+    return null;
+  }
 
   const imageSource = 
     patient.gender === 'male' ? MaleIco
   : patient.gender === 'female' ? FemaleIco
   : OtherIco;
 
-  if (!patient) {
-    return null;
-  }
-  
   return (
     <div>
       <h2>
