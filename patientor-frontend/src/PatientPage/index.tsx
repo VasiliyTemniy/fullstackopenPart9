@@ -12,7 +12,7 @@ import OtherIco from "../img/cthulhu.png";
 
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
-  if (!id) return null;
+  if (!id) return <div>404 Wrong id</div>;
 
   const [state, dispatch] = useStateValue();
 
@@ -24,7 +24,7 @@ const PatientPage = () => {
   const patient = state.patients[`${id}`];
 
   if (!patient) {
-    return null;
+    return <div>Loading...</div>;
   }
 
   const imageSource = 
