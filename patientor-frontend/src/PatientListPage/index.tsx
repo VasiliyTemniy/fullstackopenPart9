@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { Box, Table, Button, TableHead, Typography } from "@material-ui/core";
+import { Box, Table, Button, TableHead, Typography, Link } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 
 import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
 import AddPatientModal from "../AddPatientModal";
@@ -63,7 +64,11 @@ const PatientListPage = () => {
         <TableBody>
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
-              <TableCell>{patient.name}</TableCell>
+              <TableCell>
+                <Link component={RouterLink} to={`/${patient.id}`}>
+                  {patient.name}
+                </Link>
+              </TableCell>
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>

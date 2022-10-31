@@ -9,7 +9,11 @@ export type Action =
   | {
       type: "ADD_PATIENT";
       payload: Patient;
-    };
+    }
+  | {
+      type: "SET_PATIENT_DETAILS";
+      payload: Patient;
+  };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -24,6 +28,42 @@ export const reducer = (state: State, action: Action): State => {
           ...state.patients
         }
       };
+    case "SET_PATIENT_DETAILS": {
+      const id = action.payload.id;
+      const newState = {
+        ...state,
+        patients: {
+          ...state.patients,
+        }
+      };
+      newState.patients[id].ssn = action.payload.ssn;
+      newState.patients[id].entries = action.payload.entries;
+
+      return newState;
+
+   /* return {
+        ...state,
+        patients: {
+          [action.payload.id]: {
+            ...action.payload,        // this should have worked, but it didnt
+          },
+          ...state.patients
+        }
+      }; */
+
+   /* return {
+        ...state,
+        patients: {
+          [action.payload.id]: {
+            ...action.payload,        // this also did not work
+            ssn: action.payload.ssn,
+            entries: action.payload.entries,
+          },
+          ...state.patients
+        }
+      }; */
+
+    }
     case "ADD_PATIENT":
       return {
         ...state,
