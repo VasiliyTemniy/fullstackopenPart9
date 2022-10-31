@@ -24,3 +24,5 @@ export interface Patient {
   dateOfBirth?: string;
   entries?: Entry[];
 }
+
+export type NewPatient = Omit<Patient, 'id' | 'entries'>;
