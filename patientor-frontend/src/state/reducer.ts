@@ -69,24 +69,24 @@ const setPatientDetails = (patientDetailsFromApi: Patient) : Action => {
   };
 };
 
-export const getPatientDetails = (dispatch: React.Dispatch<Action>, state: State, id: string) => {
+export const patientDetailsInit = (dispatch: React.Dispatch<Action>, state: State, id: string) => {
   if (Object.keys(state.patients).length === 0) {
-    void patientListInit(dispatch);
-    void patientDetailsInit(dispatch, id);
+    void patientListInitDispatch(dispatch);
+    void patientDetailsInitDispatch(dispatch, id);
   } else {
     if (!state.patients[`${id}`].ssn) {
-      void patientDetailsInit(dispatch, id);
+      void patientDetailsInitDispatch(dispatch, id);
     }
   }
 };
 
-export const getPatientList = (dispatch: React.Dispatch<Action>, state: State) => {
+export const patientListInit = (dispatch: React.Dispatch<Action>, state: State) => {
   if (Object.keys(state.patients).length === 0) {
-    void patientListInit(dispatch);
+    void patientListInitDispatch(dispatch);
   }
 };
 
-const patientDetailsInit = async (dispatch: React.Dispatch<Action>, id: string) => {
+const patientDetailsInitDispatch = async (dispatch: React.Dispatch<Action>, id: string) => {
   const patientDetailsFromApi = await patientService.fetchPatientDetails(id);
   if (patientDetailsFromApi) {
     dispatch(setPatientDetails(patientDetailsFromApi));
@@ -94,7 +94,7 @@ const patientDetailsInit = async (dispatch: React.Dispatch<Action>, id: string) 
 };
 
 
-const patientListInit = async (dispatch: React.Dispatch<Action>) => {
+const patientListInitDispatch = async (dispatch: React.Dispatch<Action>) => {
   const patientListFromApi = await patientService.fetchPatientList();
   if (patientListFromApi) {
     dispatch(setPatientList(patientListFromApi));

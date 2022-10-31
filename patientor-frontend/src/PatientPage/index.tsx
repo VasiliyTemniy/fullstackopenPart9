@@ -4,7 +4,7 @@ import axios from "axios";
 //import { Button, Divider, Container } from "@material-ui/core";
 
 import { apiBaseUrl } from "../constants";
-import { useStateValue, getPatientDetails } from "../state";
+import { useStateValue, patientDetailsInit } from "../state";
 
 import MaleIco from "../img/male.png";
 import FemaleIco from "../img/female.png";
@@ -18,7 +18,7 @@ const PatientPage = () => {
 
   React.useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
-    void getPatientDetails(dispatch, state, id);
+    void patientDetailsInit(dispatch, state, id);
   }, [id]);
 
   const patient = state.patients[`${id}`];
