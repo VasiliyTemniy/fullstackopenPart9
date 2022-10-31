@@ -7,7 +7,7 @@ const getPatients = () : Patient[] => {
   return patients;
 };
 
-const getPatientsNoSSN = () : PublicPatient[] => {
+const getPatientsSafeDetails = () : PublicPatient[] => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({ id, name, dateOfBirth, gender, occupation }));
 };
 
@@ -20,7 +20,7 @@ const getOnePatient = (id: string) : Patient | undefined => {
   }
 };
 
-const getOnePatientNoSSN = (id: string) : PublicPatient | undefined => {
+const getOnePatientSafeDetails = (id: string) : PublicPatient | undefined => {
   const patient = patients.find(patient => patient.id === id);
   if (patient) {
     const result = {
@@ -47,4 +47,4 @@ const addPatient = ( patient: NewPatient ): Patient => {
   return newPatient;
 };
 
-export default { getPatients, getPatientsNoSSN, getOnePatient, getOnePatientNoSSN, addPatient };
+export default { getPatients, getPatientsSafeDetails, getOnePatient, getOnePatientSafeDetails, addPatient };

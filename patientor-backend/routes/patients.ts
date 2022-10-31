@@ -6,7 +6,7 @@ import patientTypeValidator from '../utils/patientTypeValidator';
 const patientRouter = express.Router();
 
 patientRouter.get('/', (_req, res) => {
-  res.send(patientService.getPatientsNoSSN());
+  res.send(patientService.getPatientsSafeDetails());
 });
 
 patientRouter.get('/:id', (req, res) => {
