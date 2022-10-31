@@ -1,11 +1,11 @@
-import { Diagnose } from './diagnose';
+import { Diagnosis } from './diagnosis';
 
 interface BaseEntry {
   id: string;
   description: string;
   date: string;
   specialist: string;
-  diagnosisCodes?: Array<Diagnose['code']>;
+  diagnosisCodes?: Array<Diagnosis['code']>;
 }
 
 export enum HealthCheckRating {
