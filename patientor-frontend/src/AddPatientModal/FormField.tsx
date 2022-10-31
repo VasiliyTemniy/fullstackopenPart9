@@ -7,7 +7,8 @@ import {
   TextField as TextFieldMUI,
   Typography,
 } from "@material-ui/core";
-import { Diagnosis, Gender } from "../types";
+import { Gender } from "../types/patient";
+import { Diagnosis } from "../types/diagnosis";
 import { InputLabel } from "@material-ui/core";
 import Input from '@material-ui/core/Input';
 

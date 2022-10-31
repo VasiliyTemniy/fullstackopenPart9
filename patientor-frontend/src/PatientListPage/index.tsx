@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
 import AddPatientModal from "../AddPatientModal";
-import { Patient } from "../types";
+import { Patient } from "../types/patient";
 import HealthRatingBar from "../components/HealthRatingBar";
 import { useStateValue } from "../state";
 import { TableCell } from "@material-ui/core";

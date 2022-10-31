@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { SetStateAction } from "react";
 import { apiBaseUrl } from "../constants";
-import { NewPatient, Patient } from "../types";
+import { NewPatient, Patient } from "../types/patient";
 
 const fetchPatientList = async () => {
   try {

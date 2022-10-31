@@ -1,5 +1,5 @@
 import { State } from "./state";
-import { NewPatient, Patient } from "../types";
+import { NewPatient, Patient } from "../types/patient";
 import patientService from "../utils/patientService";
 import { SetStateAction } from "react";
 
