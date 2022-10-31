@@ -1,6 +1,7 @@
 import { State } from "./state";
-import { Patient } from "../types";
+import { NewPatient, Patient } from "../types";
 import patientService from "../utils/patientService";
+import { SetStateAction } from "react";
 
 export type Action =
   | {
@@ -55,17 +56,24 @@ export const reducer = (state: State, action: Action): State => {
   }
 };
 
-const setPatientList = (patientListFromApi: Patient[]) : Action => {
+const setPatientListAction = (patientListFromApi: Patient[]) : Action => {
   return {
     type: "SET_PATIENT_LIST",
     payload: patientListFromApi,
   };
 };
 
-const setPatientDetails = (patientDetailsFromApi: Patient) : Action => {
+const setPatientDetailsAction = (patientDetailsFromApi: Patient) : Action => {
   return {
     type: "SET_PATIENT_DETAILS",
     payload: patientDetailsFromApi,
+  };
+};
+
+const addNewPatientAction = (newPatient: Patient) : Action => {
+  return {
+    type: "ADD_PATIENT",
+    payload: newPatient,
   };
 };
 
@@ -86,10 +94,21 @@ export const patientListInit = (dispatch: React.Dispatch<Action>, state: State) 
   }
 };
 
+export const addNewPatient = async (
+  dispatch: React.Dispatch<Action>,
+  newPatientClient: NewPatient,
+  setError: React.Dispatch<SetStateAction<string | undefined>>
+) => {
+  const newPatient = await patientService.sendNewPatient(newPatientClient, setError);
+  if (newPatient) {
+    dispatch(addNewPatientAction(newPatient));
+  }
+};
+
 const patientDetailsInitDispatch = async (dispatch: React.Dispatch<Action>, id: string) => {
   const patientDetailsFromApi = await patientService.fetchPatientDetails(id);
   if (patientDetailsFromApi) {
-    dispatch(setPatientDetails(patientDetailsFromApi));
+    dispatch(setPatientDetailsAction(patientDetailsFromApi));
   }
 };
 
@@ -97,6 +116,6 @@ const patientDetailsInitDispatch = async (dispatch: React.Dispatch<Action>, id: 
 const patientListInitDispatch = async (dispatch: React.Dispatch<Action>) => {
   const patientListFromApi = await patientService.fetchPatientList();
   if (patientListFromApi) {
-    dispatch(setPatientList(patientListFromApi));
+    dispatch(setPatientListAction(patientListFromApi));
   }
 };
