@@ -44,11 +44,11 @@ const PatientPage = () => {
       {patient.entries?.map(entry => 
         <div key={entry.id}>
           <div>
-            {entry.date} {entry.description}
+            {entry.date} <span style={{ fontStyle: "italic" }}> {entry.description} </span>
           </div>
           <ul>
             {entry.diagnosisCodes?.map(code => 
-              <li key={`${entry.id} ${code}`}>{code}</li>
+              <li key={`${entry.id} ${code}`}>{code} {state.diagnoses[code].name}</li>
             )}
           </ul>
         </div>

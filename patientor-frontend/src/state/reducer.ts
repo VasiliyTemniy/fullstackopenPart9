@@ -1,7 +1,9 @@
 import { State } from "./state";
 import { NewPatient, Patient } from "../types/patient";
 import patientService from "../utils/patientService";
+import diagnosisService from "../utils/diagnosisService";
 import { SetStateAction } from "react";
+import { Diagnosis } from "../types/diagnosis";
 
 export type Action =
   | {
@@ -15,6 +17,10 @@ export type Action =
   | {
       type: "SET_PATIENT_DETAILS";
       payload: Patient;
+    }
+  | {
+      type: "SET_DIAGNOSES_LIST";
+      payload: Diagnosis[];
   };
 
 export const reducer = (state: State, action: Action): State => {
@@ -51,6 +57,17 @@ export const reducer = (state: State, action: Action): State => {
           [action.payload.id]: action.payload
         }
       };
+    case "SET_DIAGNOSES_LIST":
+      return {
+        ...state,
+        diagnoses: {
+          ...action.payload.reduce(
+            (memo, diagnosis) => ({ ...memo, [diagnosis.code]: diagnosis }),
+            {}
+          ),
+          ...state.diagnoses
+        }
+      };
     default:
       return state;
   }
@@ -74,6 +91,13 @@ const addNewPatientAction = (newPatient: Patient) : Action => {
   return {
     type: "ADD_PATIENT",
     payload: newPatient,
+  };
+};
+
+const setDiagnosesListAction = (diagnosesListFromApi: Diagnosis[]) : Action => {
+  return {
+    type: "SET_DIAGNOSES_LIST",
+    payload: diagnosesListFromApi,
   };
 };
 
@@ -105,6 +129,12 @@ export const addNewPatient = async (
   }
 };
 
+export const diagnosesListInit = (dispatch: React.Dispatch<Action>, state: State) => {
+  if (Object.keys(state.diagnoses).length === 0) {
+    void diagnosesListInitDispatch(dispatch);
+  }
+};
+
 const patientDetailsInitDispatch = async (dispatch: React.Dispatch<Action>, id: string) => {
   const patientDetailsFromApi = await patientService.fetchPatientDetails(id);
   if (patientDetailsFromApi) {
@@ -117,5 +147,12 @@ const patientListInitDispatch = async (dispatch: React.Dispatch<Action>) => {
   const patientListFromApi = await patientService.fetchPatientList();
   if (patientListFromApi) {
     dispatch(setPatientListAction(patientListFromApi));
+  }
+};
+
+const diagnosesListInitDispatch = async (dispatch: React.Dispatch<Action>) => {
+  const diagnosesListFromApi = await diagnosisService.fetchDiagnosesList();
+  if (diagnosesListFromApi) {
+    dispatch(setDiagnosesListAction(diagnosesListFromApi));
   }
 };

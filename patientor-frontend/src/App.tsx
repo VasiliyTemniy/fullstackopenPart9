@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { Button, Divider, Container } from "@material-ui/core";
 
 import { apiBaseUrl } from "./constants";
-import { useStateValue, patientListInit } from "./state";
+import { useStateValue, patientListInit, diagnosesListInit } from "./state";
 
 import PatientListPage from "./PatientListPage";
 import { Typography } from "@material-ui/core";
@@ -18,6 +18,7 @@ const App = () => {
   React.useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
     void patientListInit(dispatch, state);
+    void diagnosesListInit(dispatch, state);
   }, [dispatch]);
 
   return (
