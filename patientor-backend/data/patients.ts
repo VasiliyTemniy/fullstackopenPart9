@@ -1,5 +1,7 @@
+import { Entry } from "../types/entry";
 import { Patient, Gender } from "../types/patient";
 import patientTypeValidator from "../utils/patientTypeValidator";
+import entryTypeValidator from "../utils/entryTypeValidator";
 
 const data = [
   {
@@ -114,9 +116,17 @@ const data = [
 ];
 
 const patients: Patient[] = data.map(obj => {
+  
   const object = patientTypeValidator(obj) as Patient;
   object.id = obj.id;
-  object.entries = obj.entries;
+
+  const entries: Entry[] = obj.entries.map(entryInput => {
+    const entry = entryTypeValidator(entryInput) as Entry;
+    entry.id = entryInput.id;
+    return entry;
+  });
+  
+  object.entries = entries;
   return object;
 });
 

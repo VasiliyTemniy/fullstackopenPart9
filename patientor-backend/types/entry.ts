@@ -15,12 +15,12 @@ export enum HealthCheckRating {
   "CriticalRisk" = 3
 }
 
-interface SickLeave {
+export interface SickLeave {
   startDate: string;
   endDate: string;
 }
 
-interface Discharge {
+export interface Discharge {
   date: string;
   criteria: string;
 }
@@ -41,6 +41,8 @@ interface HospitalEntry extends BaseEntry {
   discharge: Discharge;
 }
 
+export type EntryType = "HealthCheck" | "OccupationalHealthcare" | "Hospital";
+
 export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
@@ -50,3 +52,7 @@ export type Entry =
 type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
 
 export type EntryWithoutId = UnionOmit<Entry, 'id'>;
+
+export type HealthCheckEntryWithoutId = Omit<HealthCheckEntry, 'id'>;
+export type OccupationalHealthCareEntryWithoutId = Omit<OccupationalHealthcareEntry, 'id'>;
+export type HospitalEntryWithoutId = Omit<HospitalEntry, 'id'>;
