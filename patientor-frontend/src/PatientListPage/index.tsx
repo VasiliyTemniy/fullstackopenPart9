@@ -1,15 +1,21 @@
 import React from "react";
-import { Box, Table, Button, TableHead, Typography, Link } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
+
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+import TableHead from "@material-ui/core/TableHead";
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
 
 import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
 import AddPatientModal from "../AddPatientModal";
 import { Patient } from "../types/patient";
 import HealthRatingBar from "../components/HealthRatingBar";
 import { useStateValue } from "../state";
-import { TableCell } from "@material-ui/core";
-import { TableRow } from "@material-ui/core";
-import { TableBody } from "@material-ui/core";
 
 import { addNewPatient } from "../state";
 
