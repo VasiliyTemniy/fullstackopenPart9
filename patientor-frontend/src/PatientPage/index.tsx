@@ -1,7 +1,14 @@
 import { useParams } from "react-router-dom"; 
 import React from "react";
 import axios from "axios";
-//import { Button, Divider, Container } from "@material-ui/core";
+
+import List from "@material-ui/core/List";
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
+import EntryDetails from "../components/EntryDetails";
 
 import { apiBaseUrl } from "../constants";
 import { useStateValue, patientDetailsInit } from "../state";
@@ -32,28 +39,47 @@ const PatientPage = () => {
   : patient.gender === 'female' ? FemaleIco
   : OtherIco;
 
-  return (
-    <div>
-      <h2>
-        {patient.name}
-        <img src={imageSource} style={{ width: "1rem", paddingLeft: "1rem" }} />
-      </h2>
-      <div>ssn: {patient.ssn}</div>
-      <div>occupation: {patient.occupation}</div>
-      <h4>Entries</h4>
-      {patient.entries?.map(entry => 
-        <div key={entry.id}>
-          <div>
-            {entry.date} <span style={{ fontStyle: "italic" }}> {entry.description} </span>
-          </div>
-          <ul>
-            {entry.diagnosisCodes?.map(code => 
-              <li key={`${entry.id} ${code}`}>{code} {state.diagnoses[code].name}</li>
+  const showEntries = patient.entries 
+  ? patient.entries.length > 0 
+    ? <Card style={{ minWidth: "10rem", marginTop: "1rem" }}>
+        <CardContent style={{ background: "#f3f3f3" }}>
+          <List>
+            {patient.entries.map(entry => 
+              <EntryDetails key={entry.id} entry={entry}/>
             )}
-          </ul>
-        </div>
-      )}
-    </div>
+          </List>
+        </CardContent>
+      </Card>
+    : <Typography align="center" variant="h6">
+        Patient has no entries
+      </Typography>
+  : null;
+
+  return (
+    <>
+      <Card style={{ minWidth: "10rem", maxWidth: "20rem", marginTop: "1rem" }}>
+        <CardContent style={{ background: "#f3f3f3" }}>
+          <Typography variant="h6">
+            {patient.name}
+            <img src={imageSource} style={{ width: "1rem", paddingLeft: "1rem" }} />
+          </Typography>
+          <br/>
+          <Typography variant="body1">
+            ssn: {patient.ssn}
+          </Typography>
+          <Typography variant="body1">
+            occupation: {patient.occupation}
+          </Typography>
+        </CardContent>
+      </Card>
+      <Typography align="center" variant="h6">
+        Entries
+      </Typography>
+      {showEntries}
+      <Button  variant="contained" onClick={() => null} style={{ marginTop: "1rem"}}>
+        ADD NEW ENTRY
+      </Button>
+    </>
   );
 };
 

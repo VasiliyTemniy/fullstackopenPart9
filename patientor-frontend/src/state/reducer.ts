@@ -104,6 +104,7 @@ const setDiagnosesListAction = (diagnosesListFromApi: Diagnosis[]) : Action => {
 export const patientDetailsInit = (dispatch: React.Dispatch<Action>, state: State, id: string) => {
   if (Object.keys(state.patients).length === 0) {
     void patientListInitDispatch(dispatch);
+    void diagnosesListInitDispatch(dispatch);
     void patientDetailsInitDispatch(dispatch, id);
   } else {
     if (!state.patients[`${id}`].ssn) {
