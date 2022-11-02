@@ -14,9 +14,9 @@ import TableBody from "@material-ui/core/TableBody";
 import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
 import AddPatientModal from "../AddPatientModal";
 import { Patient } from "../types/patient";
+import { Entry, HealthCheckEntry, HealthCheckRating } from "../types/entry";
 import HealthRatingBar from "../components/HealthRatingBar";
 import { useStateValue } from "../state";
-
 import { addNewPatient } from "../state";
 
 const PatientListPage = () => {
@@ -36,6 +36,24 @@ const PatientListPage = () => {
     void addNewPatient(dispatch, { ...values }, setError, closeModal);
   };
 
+  const lastHealthCheckResult = (entries: Entry[]) : HealthCheckRating => {   // this could be useful if we fetch all entry details
+    const dummyHealthCheckEntry : HealthCheckEntry = {                        // upon rendering of this component
+      id: "1",                                                                // but it works immediately after state gets info
+      type: "HealthCheck",                                                    // about patient entries and shows correct info
+      description: "dummy",
+      date: "1000-01-01",
+      specialist: "dummy",
+      healthCheckRating: 4
+    };
+    const healthCheckEntries = entries.filter(entry => entry.type === "HealthCheck");
+    const lastCheckEntry = healthCheckEntries.reduce((prevEntry, entry) => {
+      return new Date(prevEntry.date) < new Date(entry.date)
+        ? entry
+        : prevEntry;
+    }, dummyHealthCheckEntry) as HealthCheckEntry;
+    return lastCheckEntry.healthCheckRating;
+  };
+
   return (
     <div className="App">
       <Box>
@@ -53,7 +71,11 @@ const PatientListPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(patients).map((patient: Patient) => (
+          {Object.values(patients).map((patient: Patient) => {
+            const lastHealthCheckRating = !patient.entries
+             ? 1
+             : lastHealthCheckResult(patient.entries);
+            return (
             <TableRow key={patient.id}>
               <TableCell>
                 <Link component={RouterLink} to={`/${patient.id}`}>
@@ -63,10 +85,10 @@ const PatientListPage = () => {
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
-                <HealthRatingBar showText={false} rating={1} />
+                <HealthRatingBar showText={false} rating={lastHealthCheckRating} />
               </TableCell>
             </TableRow>
-          ))}
+          );})}
         </TableBody>
       </Table>
       <AddPatientModal
