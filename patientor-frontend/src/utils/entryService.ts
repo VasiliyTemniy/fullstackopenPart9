@@ -10,7 +10,6 @@ const sendNewEntry = async (
   patientId: string
 ) => {
   try {
-    console.log("ENTRY HERE ", newEntryClient.diagnosisCodes);
     const { data: newEntry } = await axios.post<Entry>(
       `${apiBaseUrl}/patients/${patientId}/entries`,
       newEntryClient
