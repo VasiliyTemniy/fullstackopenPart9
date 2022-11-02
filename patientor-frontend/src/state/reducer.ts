@@ -4,6 +4,8 @@ import patientService from "../utils/patientService";
 import diagnosisService from "../utils/diagnosisService";
 import { SetStateAction } from "react";
 import { Diagnosis } from "../types/diagnosis";
+import { Entry, EntryWithoutId } from "../types/entry";
+import entryService from "../utils/entryService";
 
 export type Action =
   | {
@@ -21,6 +23,13 @@ export type Action =
   | {
       type: "SET_DIAGNOSES_LIST";
       payload: Diagnosis[];
+  }
+  | {
+    type: "ADD_ENTRY";
+    payload: {
+      entry: Entry,
+      patientId: string,
+    };
   };
 
 export const reducer = (state: State, action: Action): State => {
@@ -68,6 +77,22 @@ export const reducer = (state: State, action: Action): State => {
           ...state.diagnoses
         }
       };
+    case "ADD_ENTRY": {
+      const id = action.payload.patientId;
+      const patient = state.patients[id];
+      const updatedPatient = {
+        ...patient,
+        entries: patient.entries?.concat(action.payload.entry)
+      };
+
+      return {
+        ...state,
+        patients: {
+          ...state.patients,
+          [id]: { ...updatedPatient }
+        }
+      };
+    }
     default:
       return state;
   }
@@ -101,6 +126,16 @@ const setDiagnosesListAction = (diagnosesListFromApi: Diagnosis[]) : Action => {
   };
 };
 
+const addNewEntryAction = (newEntry: Entry, patientId: string) : Action => {
+  return {
+    type: "ADD_ENTRY",
+    payload: {
+      entry: newEntry,
+      patientId: patientId
+    },
+  };
+};
+
 export const patientDetailsInit = (dispatch: React.Dispatch<Action>, state: State, id: string) => {
   if (Object.keys(state.patients).length === 0) {
     void patientListInitDispatch(dispatch);
@@ -128,6 +163,19 @@ export const addNewPatient = async (
   const newPatient = await patientService.sendNewPatient(newPatientClient, setError, closeAddPatientModal);
   if (newPatient) {
     dispatch(addNewPatientAction(newPatient));
+  }
+};
+
+export const addNewEntry = async (
+  dispatch: React.Dispatch<Action>,
+  newEntryClient: EntryWithoutId,
+  setError: React.Dispatch<SetStateAction<string | undefined>>,
+  closeAddEntryModal: () => void,
+  patientId: string
+) => {
+  const newEntry = await entryService.sendNewEntry(newEntryClient, setError, closeAddEntryModal, patientId);
+  if (newEntry) {
+    dispatch(addNewEntryAction(newEntry, patientId));
   }
 };
 

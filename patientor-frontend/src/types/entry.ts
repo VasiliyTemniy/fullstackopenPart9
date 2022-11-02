@@ -15,6 +15,12 @@ export enum HealthCheckRating {
   "CriticalRisk" = 3
 }
 
+export enum EntryTypes {
+  HealthCheck = "HealthCheck",
+  OccupationalHealthcare = "OccupationalHealthcare",
+  Hospital = "Hospital",
+}
+
 interface SickLeave {
   startDate: string;
   endDate: string;

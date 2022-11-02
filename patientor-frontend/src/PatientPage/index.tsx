@@ -9,9 +9,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 import EntryDetails from "../components/EntryDetails";
+import AddEntryModal from "../AddEntryModal";
+import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 
 import { apiBaseUrl } from "../constants";
-import { useStateValue, patientDetailsInit } from "../state";
+import { useStateValue, patientDetailsInit, addNewEntry } from "../state";
 
 import MaleIco from "../img/male.png";
 import FemaleIco from "../img/female.png";
@@ -22,6 +24,8 @@ const PatientPage = () => {
   if (!id) return <div>404 Wrong id</div>;
 
   const [state, dispatch] = useStateValue();
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string>();
 
   React.useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
@@ -33,6 +37,17 @@ const PatientPage = () => {
   if (!patient) {
     return <div>Loading...</div>;
   }
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const submitNewEntry = (values: EntryFormValues) => {
+    void addNewEntry(dispatch, { ...values }, setError, closeModal, patient.id);
+  };
 
   const imageSource = 
     patient.gender === 'male' ? MaleIco
@@ -76,7 +91,14 @@ const PatientPage = () => {
         Entries
       </Typography>
       {showEntries}
-      <Button  variant="contained" onClick={() => null} style={{ marginTop: "1rem"}}>
+      <AddEntryModal
+        modalOpen={modalOpen}
+        onClose={closeModal}
+        onSubmit={submitNewEntry}
+        name={patient.name}
+        error={error}
+      />
+      <Button  variant="contained" onClick={() => openModal()} style={{ marginTop: "1rem"}}>
         ADD NEW ENTRY
       </Button>
     </>
