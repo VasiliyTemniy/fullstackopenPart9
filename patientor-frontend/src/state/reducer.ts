@@ -122,9 +122,10 @@ export const patientListInit = (dispatch: React.Dispatch<Action>, state: State) 
 export const addNewPatient = async (
   dispatch: React.Dispatch<Action>,
   newPatientClient: NewPatient,
-  setError: React.Dispatch<SetStateAction<string | undefined>>
+  setError: React.Dispatch<SetStateAction<string | undefined>>,
+  closeModal: () => void
 ) => {
-  const newPatient = await patientService.sendNewPatient(newPatientClient, setError);
+  const newPatient = await patientService.sendNewPatient(newPatientClient, setError, closeModal);
   if (newPatient) {
     dispatch(addNewPatientAction(newPatient));
   }

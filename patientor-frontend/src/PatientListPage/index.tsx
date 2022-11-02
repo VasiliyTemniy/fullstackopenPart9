@@ -33,8 +33,7 @@ const PatientListPage = () => {
   };
 
   const submitNewPatient = (values: PatientFormValues) => {
-    void addNewPatient(dispatch, { ...values }, setError);
-    closeModal();
+    void addNewPatient(dispatch, { ...values }, setError, closeModal);
   };
 
   return (

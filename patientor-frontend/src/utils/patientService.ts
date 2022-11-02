@@ -27,13 +27,15 @@ const fetchPatientDetails = async (id: string) => {
 
 const sendNewPatient = async (
   newPatientClient: NewPatient,
-  setError: React.Dispatch<SetStateAction<string | undefined>>
+  setError: React.Dispatch<SetStateAction<string | undefined>>,
+  closeModal: () => void
 ) => {
   try {
     const { data: newPatient } = await axios.post<Patient>(
       `${apiBaseUrl}/patients`,
       newPatientClient
     );
+    closeModal();
     return newPatient;
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
