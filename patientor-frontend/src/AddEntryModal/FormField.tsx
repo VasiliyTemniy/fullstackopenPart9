@@ -128,7 +128,7 @@ export const DiagnosisSelection = ({
   }));
 
   return (
-    <FormControl style={{ width: 552, marginBottom: '30px' }}>
+    <FormControl style={{ display: "flex", marginBottom: '30px' }}>
       <InputLabel>Diagnoses</InputLabel>
       <Select multiple value={selectedDiagnoses} onChange={(e) => onChange(e.target.value as string[])} input={<Input />}>
         {stateOptions.map((option) => (

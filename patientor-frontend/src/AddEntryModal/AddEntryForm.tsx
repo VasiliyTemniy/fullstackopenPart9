@@ -101,8 +101,8 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
             }
             { 
               values.type === EntryTypes.Hospital && 
-              <Box>
-                <Typography variant="subtitle2" style={{ color: "red" }}>
+              <Box style={{ border: "1px solid #949494", borderRadius: "5px", padding: "0.5rem 1rem", marginBottom: "10px" }}>
+                <Typography variant="subtitle2">
                   Discharge
                 </Typography>
                 <Field
@@ -127,8 +127,8 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 name="employerName"
                 component={TextField}
               />
-              <Box>
-                <Typography variant="subtitle2" style={{ color: "red" }}>
+              <Box style={{ border: "1px solid #949494", borderRadius: "5px", padding: "0.5rem 1rem", marginBottom: "10px" }}>
+                <Typography variant="subtitle2">
                   Sick leave
                 </Typography>
                 <Field
@@ -150,7 +150,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 <Button
                   color="secondary"
                   variant="contained"
-                  style={{ float: "left" }}
+                  style={{ float: "left", marginBottom: "10px" }}
                   type="button"
                   onClick={onCancel}
                 >
@@ -159,9 +159,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               </Grid>
               <Grid item>
                 <Button
-                  style={{
-                    float: "right",
-                  }}
+                  style={{ float: "right", marginBottom: "10px" }}
                   type="submit"
                   variant="contained"
                   disabled={!dirty || !isValid}
